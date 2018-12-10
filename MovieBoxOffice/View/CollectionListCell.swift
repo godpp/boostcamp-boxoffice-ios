@@ -17,9 +17,15 @@ class CollectionListCell: UICollectionViewCell {
     @IBOutlet weak var salesRatingLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        posterImageView.translatesAutoresizingMaskIntoConstraints = false
+        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 141/98).isActive = true
+
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
 }

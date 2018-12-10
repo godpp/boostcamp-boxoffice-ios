@@ -25,6 +25,7 @@
 		BCE3AB4F21BD4AE7004DA97F /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB4E21BD4AE7004DA97F /* APIResponse.swift */; };
 		BCE3AB5121BD5121004DA97F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB5021BD5121004DA97F /* Extension.swift */; };
 		BCE3AB5321BD88DD004DA97F /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB5221BD88DD004DA97F /* CollectionViewController.swift */; };
+		BCE3AB5F21BE9965004DA97F /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB5E21BE9965004DA97F /* MovieController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		BCE3AB4E21BD4AE7004DA97F /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		BCE3AB5021BD5121004DA97F /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BCE3AB5221BD88DD004DA97F /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		BCE3AB5E21BE9965004DA97F /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 		BCE3AB3521BBEE81004DA97F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				BCE3AB5E21BE9965004DA97F /* MovieController.swift */,
 				BCE3AB0421BBEC99004DA97F /* TableViewController.swift */,
 				BCE3AB5221BD88DD004DA97F /* CollectionViewController.swift */,
 			);
@@ -332,6 +335,7 @@
 				BCE3AB0B21BBEC99004DA97F /* MovieBoxOffice.xcdatamodeld in Sources */,
 				BCE3AB4121BBF7C5004DA97F /* Movies.swift in Sources */,
 				BCE3AB3E21BBF40D004DA97F /* CollectionListCell.swift in Sources */,
+				BCE3AB5F21BE9965004DA97F /* MovieController.swift in Sources */,
 				BCE3AB4F21BD4AE7004DA97F /* APIResponse.swift in Sources */,
 				BCE3AB5321BD88DD004DA97F /* CollectionViewController.swift in Sources */,
 			);
