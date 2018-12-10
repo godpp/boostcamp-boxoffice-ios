@@ -42,7 +42,7 @@ class CollectionViewContrller: UICollectionViewController {
     }
     
     fileprivate func setTitle(_ title: String){
-        self.title = title
+        self.navigationItem.title = title
     }
     
     fileprivate func getTitleByOrderType(_ orderType: Int) -> String{
