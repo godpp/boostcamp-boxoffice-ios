@@ -12,7 +12,7 @@ class TableViewController: UITableViewController {
     
     var movies: [Movie]?
     var posters: [UIImage]?
-    let movieController = MovieController()
+    let modelController = ModelController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,7 @@ class TableViewController: UITableViewController {
     }
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
-        movieController.getMoviesFromServer(orderType: orderType) { (movies, posters) in
+        modelController.getMoviesFromServer(orderType: orderType) { (movies, posters) in
             self.movies = movies
             self.posters = posters
             DispatchQueue.main.async {
@@ -36,19 +36,6 @@ class TableViewController: UITableViewController {
                 self.setTitle(title)
                 self.tableView.reloadData()
             }
-        }
-    }
-    
-    fileprivate func setTitle(_ title: String){
-        self.navigationItem.title = title
-    }
-    
-    fileprivate func getTitleByOrderType(_ orderType: Int) -> String{
-        switch orderType {
-        case 0: return "예매율순"
-        case 1: return "큐레이션순"
-        case 2: return "개봉일순"
-        default: return ""
         }
     }
     
@@ -91,6 +78,13 @@ extension TableViewController {
         cell.posterImageView.image = poster
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let id = movies![indexPath.row].id
+        let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        detailVC.id = id
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 

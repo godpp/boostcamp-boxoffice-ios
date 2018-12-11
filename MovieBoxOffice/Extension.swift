@@ -66,4 +66,17 @@ extension UIViewController {
         optionMenu.addAction(cancelAction)
         present(optionMenu, animated: true, completion: nil)
     }
+    
+    func setTitle(_ title: String){
+        self.navigationItem.title = title
+    }
+    
+    func getTitleByOrderType(_ orderType: Int) -> String{
+        switch orderType {
+        case 0: return "예매율순"
+        case 1: return "큐레이션순"
+        case 2: return "개봉일순"
+        default: return ""
+        }
+    }
 }

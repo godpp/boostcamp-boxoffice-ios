@@ -15,7 +15,7 @@ protocol APIService {
 
 enum BoxOfficeAPI {
     case movies(order_type: Int)
-    case movie(id: Int)
+    case movie(id: String)
     case comments(movie_id: String)
 }
 

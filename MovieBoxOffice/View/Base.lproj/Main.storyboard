@@ -47,16 +47,31 @@
             </objects>
             <point key="canvasLocation" x="1881" y="793"/>
         </scene>
-        <!--View Controller-->
+        <!--Detail View Controller-->
         <scene sceneID="fkO-wA-cMi">
             <objects>
-                <viewController id="FCG-AE-aL2" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailViewController" id="FCG-AE-aL2" customClass="DetailViewController" customModule="MovieBoxOffice" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vIf-j0-n0f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bp6-IC-reI">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Bp6-IC-reI" firstAttribute="leading" secondItem="1ll-u2-UO0" secondAttribute="leading" id="0Wv-rh-92M"/>
+                            <constraint firstItem="Bp6-IC-reI" firstAttribute="top" secondItem="1ll-u2-UO0" secondAttribute="top" id="Owd-zZ-qkV"/>
+                            <constraint firstItem="1ll-u2-UO0" firstAttribute="bottom" secondItem="Bp6-IC-reI" secondAttribute="bottom" id="gcI-Gu-16d"/>
+                            <constraint firstItem="1ll-u2-UO0" firstAttribute="trailing" secondItem="Bp6-IC-reI" secondAttribute="trailing" id="xYS-Zu-XYK"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="1ll-u2-UO0"/>
                     </view>
+                    <connections>
+                        <outlet property="movieDetailTableView" destination="Bp6-IC-reI" id="caW-qO-lDo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ESq-o4-aU8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -1,5 +1,5 @@
 //
-//  MovieController.swift
+//  ModelController.swift
 //  MovieBoxOffice
 //
 //  Created by ParkSungJoon on 10/12/2018.
@@ -13,7 +13,7 @@ extension Notification.Name {
     static let observeOrderType = Notification.Name("observeOrderType")
 }
 
-class MovieController {
+class ModelController {
     let APIManger = APIManager()
     
     func getMoviesFromServer(orderType: Int, completion: @escaping (_ movies: [Movie]?, _ posters: [UIImage]) -> ()){
@@ -23,6 +23,25 @@ class MovieController {
             })
         }
     }
+    
+    func getMovieInfoFromServer(id: String, completion: @escaping (_ movieInfo: MovieInfo?, _ poster: UIImage) -> ()){
+        APIManger.getMovieDetail(id) { (movieInfo, error) in
+            if let imageURL = movieInfo?.image {
+                if let image = self.downloadImage(url: imageURL) {
+                    completion(movieInfo,image)
+                }
+            }
+        }
+    }
+    
+    func getCommentsFromServer(movieID: String, completion: @escaping (_ comments: [Comment]?) -> ()){
+        APIManger.getComments(movieID) { (comments, error) in
+            completion(comments)
+        }
+    }
+}
+
+extension ModelController {
     fileprivate func downloadImageFromServer(_ movies: [Movie]?, completion: @escaping (_ posters: [UIImage]) -> ()){
         var imageArray: [UIImage] = []
         DispatchQueue.global(qos: .background).async {
@@ -37,7 +56,7 @@ class MovieController {
         }
     }
     
-    func downloadImage(url: String) -> UIImage?{
+    fileprivate func downloadImage(url: String) -> UIImage?{
         if let url = NSURL(string: url) {
             if let data = NSData(contentsOf: url as URL) {
                 return UIImage(data: data as Data)
