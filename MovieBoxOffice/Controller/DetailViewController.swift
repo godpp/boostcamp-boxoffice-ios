@@ -73,6 +73,13 @@ class DetailViewController: UIViewController {
     }
 }
 
+extension DetailViewController: UIGestureRecognizerDelegate, PosterTapDelegate{
+    func posterTapDelegate() {
+        let posterVC = self.storyboard?.instantiateViewController(withIdentifier: "PosterViewController") as! PosterViewController
+        posterVC.poster = poster
+        present(posterVC, animated: true, completion: nil)
+    }
+}
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -134,6 +141,9 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.salesLabel.text = "\(safe(movieInfo?.reservationRate))"
         cell.ratingLabel.text = "\(safe(movieInfo?.userRating))"
         cell.audienceLabel.text = numberFormatter.string(for: safe(movieInfo?.audience))
+        cell.gradeView.textLabel.text = cell.gradeView.getTextFromGrade(safe(movieInfo?.grade))
+        cell.gradeView.backgroundColor = cell.gradeView.getColorFromGrade(safe(movieInfo?.grade))
+        cell.delegate = self
         return cell
     }
     

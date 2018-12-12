@@ -76,6 +76,8 @@ extension TableViewController {
         cell.salesRatingLabel.text = "\(safe(movie.reservationRate))"
         cell.releaseDateLabel.text = safe(movie.date)
         cell.posterImageView.image = poster
+        cell.gradeView.textLabel.text = cell.gradeView.getTextFromGrade(safe(movie.grade))
+        cell.gradeView.backgroundColor = cell.gradeView.getColorFromGrade(safe(movie.grade))
         
         return cell
     }

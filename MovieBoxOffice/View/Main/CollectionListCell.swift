@@ -16,16 +16,25 @@ class CollectionListCell: UICollectionViewCell {
     @IBOutlet weak var rankLabel: UILabel!
     @IBOutlet weak var salesRatingLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 141/98).isActive = true
-
-    }
+    @IBOutlet weak var gradeView: GradeView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setPosterImageView()
+        setGradeView()
+    }
+
+    fileprivate func setPosterImageView() {
+        posterImageView.translatesAutoresizingMaskIntoConstraints = false
+        posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 141/98).isActive = true
+    }
+    
+    fileprivate func setGradeView() {
+        gradeView.layer.masksToBounds = true
+        gradeView.layer.cornerRadius = gradeView.frame.size.width / 2
+    }
 }

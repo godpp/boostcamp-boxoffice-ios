@@ -82,6 +82,14 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RMh-zU-Czw" customClass="GradeView" customModule="MovieBoxOffice" customModuleProvider="target">
+                                <rect key="frame" x="170" y="8" width="32" height="32"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="RMh-zU-Czw" secondAttribute="height" multiplier="1:1" id="FFO-dJ-hfX"/>
+                                    <constraint firstAttribute="height" constant="32" id="pUC-Yb-dVI"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -89,6 +97,8 @@
                             <constraint firstAttribute="bottom" secondItem="rxE-Si-Irp" secondAttribute="bottom" constant="10" id="290-TS-ras"/>
                             <constraint firstItem="uxb-R2-mgx" firstAttribute="leading" secondItem="Ooy-yt-BhC" secondAttribute="leading" id="8wo-J5-K0L"/>
                             <constraint firstItem="rxE-Si-Irp" firstAttribute="leading" secondItem="Ooy-yt-BhC" secondAttribute="leading" constant="10" id="Iq4-SQ-9HR"/>
+                            <constraint firstItem="RMh-zU-Czw" firstAttribute="trailing" secondItem="uxb-R2-mgx" secondAttribute="trailing" constant="-5" id="RTO-d6-mIT"/>
+                            <constraint firstItem="RMh-zU-Czw" firstAttribute="top" secondItem="uxb-R2-mgx" secondAttribute="top" constant="8" id="kLF-HH-HSn"/>
                             <constraint firstItem="rxE-Si-Irp" firstAttribute="top" secondItem="uxb-R2-mgx" secondAttribute="bottom" constant="9.5" id="ltM-DQ-IOu"/>
                             <constraint firstAttribute="trailing" secondItem="uxb-R2-mgx" secondAttribute="trailing" id="x65-o4-dkJ"/>
                             <constraint firstItem="rxE-Si-Irp" firstAttribute="centerX" secondItem="Ooy-yt-BhC" secondAttribute="centerX" id="xZQ-GZ-pjz"/>
@@ -105,6 +115,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="207" height="239"/>
             <connections>
+                <outlet property="gradeView" destination="RMh-zU-Czw" id="dt8-zR-juZ"/>
                 <outlet property="posterImageView" destination="uxb-R2-mgx" id="X80-KC-cda"/>
                 <outlet property="rankLabel" destination="eUu-Ye-wsv" id="zU8-tu-4in"/>
                 <outlet property="ratingLabel" destination="SE3-C2-Z9P" id="P1z-5s-h72"/>

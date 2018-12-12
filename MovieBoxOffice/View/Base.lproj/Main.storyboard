@@ -77,20 +77,64 @@
             </objects>
             <point key="canvasLocation" x="2583" y="1169"/>
         </scene>
-        <!--View Controller-->
+        <!--Poster View Controller-->
         <scene sceneID="WdM-r1-5iW">
             <objects>
-                <viewController id="bzq-ZZ-8LX" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PosterViewController" id="bzq-ZZ-8LX" customClass="PosterViewController" customModule="MovieBoxOffice" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1WQ-Gp-VUX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vSc-4C-9aj">
+                                <rect key="frame" x="20" y="30" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Ebe-YW-RL9"/>
+                                    <constraint firstAttribute="width" secondItem="vSc-4C-9aj" secondAttribute="height" multiplier="1:1" id="aSQ-p8-QEa"/>
+                                </constraints>
+                                <state key="normal" image="x"/>
+                                <connections>
+                                    <action selector="dismissButton:" destination="bzq-ZZ-8LX" eventType="touchUpInside" id="pDz-1r-YRg"/>
+                                </connections>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qjv-Nd-b9Z">
+                                <rect key="frame" x="0.0" y="63.5" width="375" height="540"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T3w-C0-jlP">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="540"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="T3w-C0-jlP" firstAttribute="leading" secondItem="Qjv-Nd-b9Z" secondAttribute="leading" id="DCL-xD-6uz"/>
+                                    <constraint firstItem="T3w-C0-jlP" firstAttribute="height" secondItem="Qjv-Nd-b9Z" secondAttribute="height" id="fyo-Fv-IL8"/>
+                                    <constraint firstAttribute="bottom" secondItem="T3w-C0-jlP" secondAttribute="bottom" id="h7U-fa-xth"/>
+                                    <constraint firstAttribute="trailing" secondItem="T3w-C0-jlP" secondAttribute="trailing" id="lFp-Of-BgH"/>
+                                    <constraint firstItem="T3w-C0-jlP" firstAttribute="width" secondItem="Qjv-Nd-b9Z" secondAttribute="width" id="mcC-a3-vAd"/>
+                                    <constraint firstItem="T3w-C0-jlP" firstAttribute="top" secondItem="Qjv-Nd-b9Z" secondAttribute="top" id="scn-fG-ZNY"/>
+                                    <constraint firstAttribute="width" secondItem="Qjv-Nd-b9Z" secondAttribute="height" multiplier="98:141" id="srC-qC-gP6"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="bzq-ZZ-8LX" id="uq0-DE-do5"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="centerY" secondItem="1WQ-Gp-VUX" secondAttribute="centerY" id="2CY-Hy-UE1"/>
+                            <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="leading" secondItem="2ug-vw-C0e" secondAttribute="leading" id="L3l-vW-6hw"/>
+                            <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="trailing" secondItem="2ug-vw-C0e" secondAttribute="trailing" id="hyr-g5-cT0"/>
+                            <constraint firstItem="vSc-4C-9aj" firstAttribute="top" secondItem="2ug-vw-C0e" secondAttribute="top" constant="10" id="vql-h7-TLf"/>
+                            <constraint firstItem="vSc-4C-9aj" firstAttribute="leading" secondItem="2ug-vw-C0e" secondAttribute="leading" constant="20" id="yYY-cL-Jro"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="2ug-vw-C0e"/>
                     </view>
+                    <connections>
+                        <outlet property="posterImageView" destination="T3w-C0-jlP" id="Zyr-gP-voT"/>
+                        <outlet property="scrollView" destination="Qjv-Nd-b9Z" id="CwB-Eb-7O9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pPR-1n-EPH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3290" y="1169"/>
+            <point key="canvasLocation" x="3288.8000000000002" y="1168.9655172413793"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="iM5-jd-rPy">
@@ -160,5 +204,6 @@
     <resources>
         <image name="collection" width="51.200000762939453" height="51.200000762939453"/>
         <image name="table" width="51.200000762939453" height="51.200000762939453"/>
+        <image name="x" width="51.200000762939453" height="51.200000762939453"/>
     </resources>
 </document>

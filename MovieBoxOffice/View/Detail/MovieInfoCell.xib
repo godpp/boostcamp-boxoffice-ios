@@ -25,17 +25,30 @@
                             <constraint firstAttribute="width" secondItem="ya1-dI-DI8" secondAttribute="height" multiplier="98:141" id="vbM-1Q-QGH"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="qWi-8W-xR1">
-                        <rect key="frame" x="135" y="73.5" width="224" height="77.5"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="qWi-8W-xR1">
+                        <rect key="frame" x="135" y="71" width="224" height="80"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{movieTitle}" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="le2-Ep-fVa">
-                                <rect key="frame" x="0.0" y="0.0" width="100" height="21.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="acS-3b-DNg">
+                                <rect key="frame" x="0.0" y="0.0" width="134" height="24"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{movieTitle}" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="le2-Ep-fVa">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v5W-ND-Grd" customClass="GradeView" customModule="MovieBoxOffice" customModuleProvider="target">
+                                        <rect key="frame" x="110" y="0.0" width="24" height="24"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="v5W-ND-Grd" secondAttribute="height" multiplier="1:1" id="Fcu-3Z-LAH"/>
+                                            <constraint firstAttribute="height" constant="24" id="uw9-c4-Ir9"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yr4-t8-BLY">
-                                <rect key="frame" x="0.0" y="31.5" width="123" height="18"/>
+                                <rect key="frame" x="0.0" y="34" width="123" height="18"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{releaseDate}" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Yx-VA-B8F">
                                         <rect key="frame" x="0.0" y="0.0" width="93" height="18"/>
@@ -52,7 +65,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="87p-zU-Kyc">
-                                <rect key="frame" x="0.0" y="59.5" width="152" height="18"/>
+                                <rect key="frame" x="0.0" y="62" width="152" height="18"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{genres}" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="he5-5F-GDU">
                                         <rect key="frame" x="0.0" y="0.0" width="58" height="18"/>
@@ -203,6 +216,7 @@
                 <outlet property="audienceLabel" destination="jJQ-t4-yPT" id="oRw-RN-dFh"/>
                 <outlet property="durationLabel" destination="Jfq-LI-hQ6" id="hnB-JH-lmC"/>
                 <outlet property="genresLabel" destination="he5-5F-GDU" id="16J-uP-MjI"/>
+                <outlet property="gradeView" destination="v5W-ND-Grd" id="FZp-U5-bYb"/>
                 <outlet property="posterImageView" destination="ya1-dI-DI8" id="qwX-5e-8SL"/>
                 <outlet property="rankLabel" destination="VwZ-H0-8R1" id="Gu5-o8-cwx"/>
                 <outlet property="ratingLabel" destination="Pah-8d-KWY" id="TkT-jc-A6T"/>
