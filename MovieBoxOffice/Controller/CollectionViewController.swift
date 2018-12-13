@@ -9,18 +9,45 @@
 import Foundation
 import UIKit
 
-class CollectionViewContrller: UICollectionViewController {
+class CollectionViewController: UIViewController, DataLoading {
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    var loadingView: LoadingView = {
+        let view = LoadingView()
+        view.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        return view
+    }()
+    
+    var state: ViewState = .loading {
+        didSet{
+            switch state {
+            case .loading:
+                update(view)
+            case .loaded:
+                update(view)
+                collectionView.reloadData()
+            case .error(let message):
+                print(message)
+            }
+        }
+    }
     
     let APIManger = APIManager()
-    var movies: [Movie]?
-    var posters: [UIImage]?
+    var moviesData: [(info: Movie, poster: UIImage)]?
     let modelController = ModelController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setCollectionView()
         registerCollectionViewCell()
         getMoviesFromServer(0)
         setNavigationBarItem()
+    }
+    
+    fileprivate func setCollectionView(){
+        collectionView.delegate = self
+        collectionView.dataSource = self
         NotificationCenter.default.addObserver(self, selector: #selector(receiveOrderType), name: .observeOrderType, object: nil)
     }
     
@@ -30,13 +57,13 @@ class CollectionViewContrller: UICollectionViewController {
     }
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
-        modelController.getMoviesFromServer(orderType: orderType) { (movies, posters) in
-            self.movies = movies
-            self.posters = posters
+        state = .loading
+        modelController.getMoviesFromServer(orderType: orderType) { (moviesData, error) in
+            self.moviesData = moviesData
             DispatchQueue.main.async {
                 let title = self.getTitleByOrderType(orderType)
                 self.setTitle(title)
-                self.collectionView.reloadData()
+                self.state = .loaded
             }
         }
     }
@@ -59,8 +86,7 @@ class CollectionViewContrller: UICollectionViewController {
     }
 }
 
-extension CollectionViewContrller: UICollectionViewDelegateFlowLayout {
-    
+extension CollectionViewController: UICollectionViewDelegateFlowLayout {
     fileprivate var sectionInset: UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     }
@@ -82,35 +108,33 @@ extension CollectionViewContrller: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return itemSpacing
     }
+}
+
+extension CollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let count = movies?.count{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let count = moviesData?.count{
             return count
         }
         return 0
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionListCell", for: indexPath) as! CollectionListCell
-        let movie = movies![indexPath.row]
-        let poster = posters![indexPath.row]
-        cell.titleLabel.text = safe(movie.title)
-        cell.ratingLabel.text = "(\(safe(movie.userRating))) "
-        cell.rankLabel.text = "\(safe(movie.reservationGrade))"
-        cell.salesRatingLabel.text = "\(safe(movie.reservationRate))"
-        cell.releaseDateLabel.text = safe(movie.date)
-        cell.posterImageView.image = poster
-        cell.gradeView.textLabel.text = cell.gradeView.getTextFromGrade(safe(movie.grade))
-        cell.gradeView.backgroundColor = cell.gradeView.getColorFromGrade(safe(movie.grade))
-        return cell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return setCollectionListCell(collectionView, indexPath)
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let id = movies![indexPath.row].id
-        let movieTitle = movies![indexPath.row].title
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let id = moviesData?[indexPath.row].info.id, let title = moviesData?[indexPath.row].info.title else { return }
         let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.id = id
-        detailVC.movieTitle = movieTitle
+        detailVC.movieTitle = title
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    fileprivate func setCollectionListCell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionListCell", for: indexPath) as! CollectionListCell
+        let movie = moviesData![indexPath.row]
+        cell.movie = movie
+        return cell
     }
 }

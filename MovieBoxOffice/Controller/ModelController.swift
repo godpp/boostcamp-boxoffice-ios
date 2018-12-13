@@ -16,10 +16,12 @@ extension Notification.Name {
 class ModelController {
     let APIManger = APIManager()
     
-    func getMoviesFromServer(orderType: Int, completion: @escaping (_ movies: [Movie]?, _ posters: [UIImage]) -> ()){
-        APIManger.getMovies(orderType) { (movies, error) in
+    func getMoviesFromServer(orderType: Int, completion: @escaping (_ moviesData: [(info: Movie, poster:  UIImage)]?, _ code: String?) -> ()){
+        APIManger.getMovies(orderType) { (movies, code) in
             self.downloadImageFromServer(movies, completion: { (posters) in
-                completion(movies, posters)
+                guard let movies = movies, let posters = posters else { return }
+                let moviesData = zip(movies, posters).map {($0, $1)}
+                completion(moviesData, code)
             })
         }
     }
@@ -42,9 +44,9 @@ class ModelController {
 }
 
 extension ModelController {
-    fileprivate func downloadImageFromServer(_ movies: [Movie]?, completion: @escaping (_ posters: [UIImage]) -> ()){
+    fileprivate func downloadImageFromServer(_ movies: [Movie]?, completion: @escaping (_ posters: [UIImage]?) -> ()){
         var imageArray: [UIImage] = []
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             if let movies = movies{
                 for index in movies{
                     if let poster = self.downloadImage(url: index.thumb!){

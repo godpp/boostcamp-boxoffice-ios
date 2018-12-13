@@ -8,17 +8,49 @@
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class TableViewController: UIViewController, DataLoading {
+
+    @IBOutlet weak var tableView: UITableView!
     
-    var movies: [Movie]?
-    var posters: [UIImage]?
+    var loadingView: LoadingView = {
+        let view = LoadingView()
+        view.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        return view
+    }()
+    
+    var state: ViewState = .loading {
+        didSet{
+            switch state {
+            case .loading:
+                update(view)
+            case .loaded:
+                update(view)
+                tableView.reloadData()
+            case .error(let message):
+                print(message)
+            }
+        }
+    }
+    
+    var moviesData: [(info: Movie, poster: UIImage)]?
     let modelController = ModelController()
+    let response = CallbackResponse()
+    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTableView()
         registerTableViewCell()
         getMoviesFromServer(0)
         setNavigationBarItem()
+    }
+    
+    fileprivate func setTableView(){
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.tableHeaderView = UIView(frame: CGRect.zero)
         NotificationCenter.default.addObserver(self, selector: #selector(receiveOrderType), name: .observeOrderType, object: nil)
     }
     
@@ -28,13 +60,19 @@ class TableViewController: UITableViewController {
     }
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
-        modelController.getMoviesFromServer(orderType: orderType) { (movies, posters) in
-            self.movies = movies
-            self.posters = posters
-            DispatchQueue.main.async {
-                let title = self.getTitleByOrderType(orderType)
-                self.setTitle(title)
-                self.tableView.reloadData()
+        state = .loading
+        modelController.getMoviesFromServer(orderType: orderType) { (moviesData, code)  in
+            let result = self.response.result(code!)
+            switch result{
+            case .success:
+                self.moviesData = moviesData
+                DispatchQueue.main.async {
+                    let title = self.getTitleByOrderType(orderType)
+                    self.setTitle(title)
+                    self.state = .loaded
+                }
+            case .failure:
+                self.state = .error(message: self.safe(code))
             }
         }
     }
@@ -57,38 +95,32 @@ class TableViewController: UITableViewController {
     }
 }
 
-extension TableViewController {
+extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = movies?.count{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let count = moviesData?.count{
             return count
         }
         return 0
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableListCell", for: indexPath) as! TableListCell
-        let movie = movies![indexPath.row]
-        let poster = posters![indexPath.row]
-        cell.titleLabel.text = safe(movie.title)
-        cell.ratingLabel.text = "\(safe(movie.userRating))"
-        cell.rankLabel.text = "\(safe(movie.reservationGrade))"
-        cell.salesRatingLabel.text = "\(safe(movie.reservationRate))"
-        cell.releaseDateLabel.text = safe(movie.date)
-        cell.posterImageView.image = poster
-        cell.gradeView.textLabel.text = cell.gradeView.getTextFromGrade(safe(movie.grade))
-        cell.gradeView.backgroundColor = cell.gradeView.getColorFromGrade(safe(movie.grade))
-        
-        return cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return setTableListCell(tableView, indexPath)
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let id = movies![indexPath.row].id
-        let movieTitle = movies![indexPath.row].title
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let id = moviesData?[indexPath.row].info.id, let title = moviesData?[indexPath.row].info.title else { return }
         let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.id = id
-        detailVC.movieTitle = movieTitle
+        detailVC.movieTitle = title
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    fileprivate func setTableListCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TableListCell", for: indexPath) as! TableListCell
+        let movie = moviesData![indexPath.row]
+        cell.movie = movie
+        return cell
     }
 }
 

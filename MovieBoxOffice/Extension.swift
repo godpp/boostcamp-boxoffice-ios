@@ -79,4 +79,49 @@ extension UIViewController {
         default: return ""
         }
     }
+    
+    func networkFailAlert(title: String, msg: String) {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+}
+
+extension UITableViewCell {
+    //MARK: Optional Binding using Generic
+    func safe<T>(_ data: T?) -> T {
+        switch data{
+        case is Int:
+            guard let unlock = data else { return 0 as! T }
+            return unlock
+        case is Double:
+            guard let unlock = data else { return 0.0 as! T }
+            return unlock
+        case is String:
+            guard let unlock = data else { return "" as! T }
+            return unlock
+        default:
+            return data!
+        }
+    }
+}
+
+extension UICollectionViewCell {
+    //MARK: Optional Binding using Generic
+    func safe<T>(_ data: T?) -> T {
+        switch data{
+        case is Int:
+            guard let unlock = data else { return 0 as! T }
+            return unlock
+        case is Double:
+            guard let unlock = data else { return 0.0 as! T }
+            return unlock
+        case is String:
+            guard let unlock = data else { return "" as! T }
+            return unlock
+        default:
+            return data!
+        }
+    }
 }

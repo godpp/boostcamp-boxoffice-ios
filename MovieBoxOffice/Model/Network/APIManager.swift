@@ -13,8 +13,8 @@ struct APIManager {
     let apiCenter = APICenter<BoxOfficeAPI>()
     let apiResponse = APIResponse()
     
-    func getMovies(_ orderType: Int, completion: @escaping (_ movie: [Movie]?, _ error: String?) -> ()){
-        apiCenter.request(.movies(order_type: orderType)) { (data, response, error) in
+    func getMovies(_ orderType: Int, completion: @escaping (_ resultData: [Movie]?, _ code: String?) -> ()){
+        apiCenter.request(.movies(order_type: orderType)) { (data, response, code) in
             if let response = response as? HTTPURLResponse {
                 let result = self.apiResponse.result(response)
                 switch result {
@@ -22,16 +22,17 @@ struct APIManager {
                     guard let responseData = data else { return }
                     do{
                         let decodeJSON = try JSONDecoder().decode(Movies.self, from: responseData)
-                        if let message = decodeJSON.message{
-                            completion(nil, message)
+                        if decodeJSON.message != nil{
+                            completion(nil, code)
                         } else{
-                            completion(decodeJSON.movies, nil)
+
+                            completion(decodeJSON.movies, code)
                         }
                     } catch{
-                        completion(nil, "Decoding Error")
+                        completion(nil, code)
                     }
                 case .failure:
-                    completion(nil, "Networking Fail")
+                    completion(nil, code)
                 }
             }
         }
