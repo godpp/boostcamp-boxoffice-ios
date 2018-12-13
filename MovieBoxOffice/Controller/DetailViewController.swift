@@ -13,6 +13,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var movieDetailTableView: UITableView!
     
     var id: String?
+    var movieTitle: String?
     var movieInfo: MovieInfo?
     var poster: UIImage?
     var comments: [Comment]?
@@ -34,6 +35,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = safe(movieTitle)
         setTableView()
         registerTableViewCell()
         getDataFromServer(safe(id))
@@ -58,7 +60,7 @@ class DetailViewController: UIViewController {
     }
     
     fileprivate func getDataFromServer(_ id: String){
-        DispatchQueue.global(qos: .utility).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             self.modelController.getMovieInfoFromServer(id: id) { (movieInfo, poster) in
                 self.movieInfo = movieInfo
                 self.poster = poster
@@ -143,6 +145,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.audienceLabel.text = numberFormatter.string(for: safe(movieInfo?.audience))
         cell.gradeView.textLabel.text = cell.gradeView.getTextFromGrade(safe(movieInfo?.grade))
         cell.gradeView.backgroundColor = cell.gradeView.getColorFromGrade(safe(movieInfo?.grade))
+        cell.ratingView.setStarImage(safe(movieInfo?.userRating))
         cell.delegate = self
         return cell
     }
@@ -167,6 +170,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.writerLabel.text = safe(comment.writer)
         cell.timeStampLabel.text = dateFormatter.string(from: date)
         cell.commentLabel.text = safe(comment.contents)
+        cell.ratingView.setStarImage(safe(comment.rating))
         return cell
     }
 }

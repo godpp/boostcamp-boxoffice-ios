@@ -11,31 +11,52 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RatingView" customModule="MovieBoxOffice" customModuleProvider="target">
             <connections>
-                <outlet property="rateImageView" destination="Xp3-mw-XVd" id="gYE-Mx-wlI"/>
+                <outletCollection property="starImageViews" destination="Xp3-mw-XVd" collectionClass="NSMutableArray" id="mY3-po-9Vh"/>
+                <outletCollection property="starImageViews" destination="eNN-pN-cvn" collectionClass="NSMutableArray" id="IGh-FN-NkH"/>
+                <outletCollection property="starImageViews" destination="JgD-vR-WbA" collectionClass="NSMutableArray" id="n38-p4-5yb"/>
+                <outletCollection property="starImageViews" destination="aZK-W2-1JP" collectionClass="NSMutableArray" id="cgE-ej-Y8q"/>
+                <outletCollection property="starImageViews" destination="8qO-ex-KCo" collectionClass="NSMutableArray" id="ICN-Ze-Bg0"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="100" height="20"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xp3-mw-XVd">
-                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="Xp3-mw-XVd" secondAttribute="height" multiplier="1:1" id="de7-3c-ukW"/>
-                    </constraints>
-                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="kCC-1D-Ub7">
+                    <rect key="frame" x="0.0" y="0.0" width="100" height="20"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="graystar" translatesAutoresizingMaskIntoConstraints="NO" id="Xp3-mw-XVd">
+                            <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="graystar" translatesAutoresizingMaskIntoConstraints="NO" id="eNN-pN-cvn">
+                            <rect key="frame" x="20" y="0.0" width="20" height="20"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="graystar" translatesAutoresizingMaskIntoConstraints="NO" id="JgD-vR-WbA">
+                            <rect key="frame" x="40" y="0.0" width="20" height="20"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="graystar" translatesAutoresizingMaskIntoConstraints="NO" id="aZK-W2-1JP">
+                            <rect key="frame" x="60" y="0.0" width="20" height="20"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="graystar" translatesAutoresizingMaskIntoConstraints="NO" id="8qO-ex-KCo">
+                            <rect key="frame" x="80" y="0.0" width="20" height="20"/>
+                        </imageView>
+                    </subviews>
+                </stackView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="Xp3-mw-XVd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="E7p-uB-ask"/>
-                <constraint firstItem="Xp3-mw-XVd" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Jon-5E-X7V"/>
-                <constraint firstItem="Xp3-mw-XVd" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="OsP-Mm-5j1"/>
-                <constraint firstItem="Xp3-mw-XVd" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="veT-U8-iNh"/>
+                <constraint firstItem="kCC-1D-Ub7" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="7gU-X2-HoS"/>
+                <constraint firstAttribute="trailing" secondItem="kCC-1D-Ub7" secondAttribute="trailing" id="HeE-Go-cN3"/>
+                <constraint firstItem="kCC-1D-Ub7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ccZ-8i-ncR"/>
+                <constraint firstAttribute="bottom" secondItem="kCC-1D-Ub7" secondAttribute="bottom" id="d7A-qM-TbK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="-56" y="-24.287856071964018"/>
         </view>
     </objects>
+    <resources>
+        <image name="graystar" width="19.200000762939453" height="19.200000762939453"/>
+    </resources>
 </document>

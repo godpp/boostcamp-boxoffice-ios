@@ -146,20 +146,28 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fZH-7v-Mum">
-                                <rect key="frame" x="147.5" y="20" width="42" height="40"/>
+                                <rect key="frame" x="131" y="10" width="75" height="60"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="평점" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTO-kc-D6A">
-                                        <rect key="frame" x="6" y="0.0" width="29.5" height="20.5"/>
+                                        <rect key="frame" x="22.5" y="0.0" width="29.5" height="20.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{rating}" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pah-8d-KWY">
-                                        <rect key="frame" x="0.0" y="25.5" width="42" height="14.5"/>
+                                        <rect key="frame" x="16.5" y="25.5" width="42" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HS5-hm-Vsz" customClass="RatingView" customModule="MovieBoxOffice" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="45" width="75" height="15"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.60784313729999995" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="HS5-hm-Vsz" secondAttribute="height" multiplier="5:1" id="Ynw-q5-tng"/>
+                                            <constraint firstAttribute="height" constant="15" id="yPo-oC-tKU"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n6O-wJ-D7I">
@@ -187,6 +195,12 @@
                                 </subviews>
                             </stackView>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="Zxp-7a-g4C" firstAttribute="top" secondItem="meR-hL-1GB" secondAttribute="top" id="3A4-Iy-ida"/>
+                            <constraint firstAttribute="bottom" secondItem="Zxp-7a-g4C" secondAttribute="bottom" id="NLY-OQ-9hd"/>
+                            <constraint firstAttribute="bottom" secondItem="n6O-wJ-D7I" secondAttribute="bottom" id="h5S-la-JI6"/>
+                            <constraint firstItem="n6O-wJ-D7I" firstAttribute="top" secondItem="meR-hL-1GB" secondAttribute="top" id="zgG-b1-HlU"/>
+                        </constraints>
                     </stackView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mGZ-wJ-hbm">
                         <rect key="frame" x="0.0" y="267" width="375" height="9.5"/>
@@ -220,6 +234,7 @@
                 <outlet property="posterImageView" destination="ya1-dI-DI8" id="qwX-5e-8SL"/>
                 <outlet property="rankLabel" destination="VwZ-H0-8R1" id="Gu5-o8-cwx"/>
                 <outlet property="ratingLabel" destination="Pah-8d-KWY" id="TkT-jc-A6T"/>
+                <outlet property="ratingView" destination="HS5-hm-Vsz" id="yIq-QQ-oyL"/>
                 <outlet property="releaseDateLabel" destination="3Yx-VA-B8F" id="LUH-sE-rZY"/>
                 <outlet property="salesLabel" destination="pIR-zU-3fN" id="mhG-K3-uaI"/>
                 <outlet property="titleLabel" destination="le2-Ep-fVa" id="3ZD-qw-wLT"/>

@@ -24,6 +24,7 @@ class MovieInfoCell: UITableViewCell {
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var audienceLabel: UILabel!
     @IBOutlet weak var gradeView: GradeView!
+    @IBOutlet weak var ratingView: RatingView!
     
     var delegate: PosterTapDelegate?
     

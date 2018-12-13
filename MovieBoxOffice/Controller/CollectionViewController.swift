@@ -107,8 +107,10 @@ extension CollectionViewContrller: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let id = movies![indexPath.row].id
+        let movieTitle = movies![indexPath.row].title
         let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.id = id
+        detailVC.movieTitle = movieTitle
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }

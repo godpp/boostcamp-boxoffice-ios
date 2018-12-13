@@ -14,6 +14,7 @@ class MovieCommentsCell: UITableViewCell {
     @IBOutlet weak var writerLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
+    @IBOutlet weak var ratingView: RatingView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,5 +27,4 @@ class MovieCommentsCell: UITableViewCell {
         userImageView.layer.cornerRadius = userImageView.frame.height / 2
         userImageView.image = UIImage(named: "user")
     }
-    
 }
