@@ -1,5 +1,5 @@
 //
-//  APIResponse.swift
+//  StatueCodeResponse.swift
 //  MovieBoxOffice
 //
 //  Created by ParkSungJoon on 09/12/2018.
@@ -13,13 +13,11 @@ enum ResponseResult{
     case failure
 }
 
-struct APIResponse {
+struct StatueCodeResponse {
     func result(_ response: HTTPURLResponse) -> ResponseResult{
         switch response.statusCode {
-        case 200:
-            return .success
-        default:
-            return .failure
+        case 200: return .success
+        default:  return .failure
         }
     }
 }

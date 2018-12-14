@@ -8,16 +8,29 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, DataLoading {
 
     @IBOutlet weak var movieDetailTableView: UITableView!
     
-    var id: String?
-    var movieTitle: String?
-    var movieInfo: MovieInfo?
-    var poster: UIImage?
-    var comments: [Comment]?
-    let modelController = ModelController()
+    var loadingView: LoadingView = {
+        let view = LoadingView()
+        view.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        return view
+    }()
+    
+    var state: ViewState = .loading {
+        didSet{
+            switch state {
+            case .loading:
+                update(view)
+            case .loaded:
+                update(view)
+                movieDetailTableView.reloadData()
+            case .error:
+                update(view)
+            }
+        }
+    }
     
     let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -32,6 +45,14 @@ class DetailViewController: UIViewController {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter
     }()
+    
+    var id: String?
+    var movieTitle: String?
+    var movieInfo: MovieInfo?
+    var poster: UIImage?
+    var comments: [Comment]?
+    let modelController = ModelController()
+    let response = CallbackResponse()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,14 +81,15 @@ class DetailViewController: UIViewController {
     }
     
     fileprivate func getDataFromServer(_ id: String){
+        state = .loading
         DispatchQueue.global(qos: .userInteractive).async {
-            self.modelController.getMovieInfoFromServer(id: id) { (movieInfo, poster) in
+            self.modelController.getMovieInfoFromServer(id: id) { (movieInfo, poster, code)  in
                 self.movieInfo = movieInfo
                 self.poster = poster
                 self.modelController.getCommentsFromServer(movieID: id) { (comments) in
                     self.comments = comments
                     DispatchQueue.main.async {
-                        self.movieDetailTableView.reloadData()
+                        self.state = .loaded
                     }
                 }
             }

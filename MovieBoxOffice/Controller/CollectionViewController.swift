@@ -27,8 +27,8 @@ class CollectionViewController: UIViewController, DataLoading {
             case .loaded:
                 update(view)
                 collectionView.reloadData()
-            case .error(let message):
-                print(message)
+            case .error:
+                update(view)
             }
         }
     }
@@ -36,6 +36,7 @@ class CollectionViewController: UIViewController, DataLoading {
     let APIManger = APIManager()
     var moviesData: [(info: Movie, poster: UIImage)]?
     let modelController = ModelController()
+    let response = CallbackResponse()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,12 +59,18 @@ class CollectionViewController: UIViewController, DataLoading {
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
         state = .loading
-        modelController.getMoviesFromServer(orderType: orderType) { (moviesData, error) in
-            self.moviesData = moviesData
-            DispatchQueue.main.async {
-                let title = self.getTitleByOrderType(orderType)
-                self.setTitle(title)
-                self.state = .loaded
+        modelController.getMoviesFromServer(orderType: orderType) { (moviesData, code)  in
+            let result = self.response.result(code)
+            switch result{
+            case .success:
+                self.moviesData = moviesData
+                DispatchQueue.main.async {
+                    let title = self.getTitleByOrderType(orderType)
+                    self.setTitle(title)
+                    self.state = .loaded
+                }
+            case .failure:
+                self.state = .error(code: self.safe(code))
             }
         }
     }

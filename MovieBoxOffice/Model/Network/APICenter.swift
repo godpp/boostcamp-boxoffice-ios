@@ -40,15 +40,28 @@ extension BoxOfficeAPI: APIService {
 
 class APICenter<Service: APIService>{
     
+    let statusCode = StatueCodeResponse()
+    
     func request(_ server: Service, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ code: String) -> ()){
         guard let url = URL(string: server.baseURL.absoluteString + server.subURL) else { return }
-        
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let data = data else {
-                completion(nil, nil, "fail")
+            guard error == nil else {
+                completion(nil,nil,"Internet Connection Fail")
                 return
             }
-            completion(data, response, "success")
+            guard let data = data else {
+                completion(nil, nil, "Data Receive Fail")
+                return
+            }
+            if let response = response as? HTTPURLResponse {
+                let result = self.statusCode.result(response)
+                switch result{
+                case .success:
+                    completion(data, response, "success")
+                case .failure:
+                    completion(nil, nil, "404 Error")
+                }
+            }
         }
         task.resume()
     }

@@ -15,23 +15,38 @@ extension Notification.Name {
 
 class ModelController {
     let APIManger = APIManager()
+    let response = CallbackResponse()
     
-    func getMoviesFromServer(orderType: Int, completion: @escaping (_ moviesData: [(info: Movie, poster:  UIImage)]?, _ code: String?) -> ()){
+    func getMoviesFromServer(orderType: Int, completion: @escaping (_ moviesData: [(info: Movie, poster:  UIImage)]?, _ code: String) -> ()){
         APIManger.getMovies(orderType) { (movies, code) in
-            self.downloadImageFromServer(movies, completion: { (posters) in
-                guard let movies = movies, let posters = posters else { return }
-                let moviesData = zip(movies, posters).map {($0, $1)}
-                completion(moviesData, code)
-            })
+            let result = self.response.result(code)
+            switch result{
+            case .success:
+                self.downloadImageFromServer(movies, completion: { (posters) in
+                    guard let movies = movies, let posters = posters else { return }
+                    let moviesData = zip(movies, posters).map {($0, $1)}
+                    completion(moviesData, code)
+                })
+            case .failure:
+                completion(nil, code)
+            }
         }
     }
     
-    func getMovieInfoFromServer(id: String, completion: @escaping (_ movieInfo: MovieInfo?, _ poster: UIImage) -> ()){
-        APIManger.getMovieDetail(id) { (movieInfo, error) in
-            if let imageURL = movieInfo?.image {
-                if let image = self.downloadImage(url: imageURL) {
-                    completion(movieInfo,image)
+    func getMovieInfoFromServer(id: String, completion: @escaping (_ movieInfo: MovieInfo?, _ poster: UIImage?, _ code: String) -> ()){
+        APIManger.getMovieDetail(id) { (movieInfo, code) in
+            let result = self.response.result(code)
+            switch result{
+            case .success:
+                if let imageURL = movieInfo?.image {
+                    if let image = self.downloadImage(url: imageURL) {
+                        completion(movieInfo, image, code)
+                    }
+                } else {
+                    completion(movieInfo, nil, code)
                 }
+            case .failure:
+                completion(movieInfo, nil, code)
             }
         }
     }
@@ -44,6 +59,7 @@ class ModelController {
 }
 
 extension ModelController {
+    
     fileprivate func downloadImageFromServer(_ movies: [Movie]?, completion: @escaping (_ posters: [UIImage]?) -> ()){
         var imageArray: [UIImage] = []
         DispatchQueue.global().async {

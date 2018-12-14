@@ -12,7 +12,7 @@ import UIKit
 enum ViewState {
     case loading
     case loaded
-    case error(message: String)
+    case error(code: String)
 }
 
 protocol DataLoading {
@@ -33,8 +33,11 @@ extension DataLoading where Self: UIViewController {
         case .loaded:
             loadingView.indicator.stopAnimating()
             loadingView.removeFromSuperview()
-        case .error:
-            print("error")
+        case .error(let code):
+            DispatchQueue.main.async {
+                let errorAlert = UIAlertController(title: "오류", message: code, preferredStyle: .alert)
+                self.present(errorAlert, animated: true, completion: nil)
+            }
         }
     }
 }

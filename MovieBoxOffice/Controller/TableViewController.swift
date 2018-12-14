@@ -26,8 +26,8 @@ class TableViewController: UIViewController, DataLoading {
             case .loaded:
                 update(view)
                 tableView.reloadData()
-            case .error(let message):
-                print(message)
+            case .error:
+                update(view)
             }
         }
     }
@@ -35,8 +35,6 @@ class TableViewController: UIViewController, DataLoading {
     var moviesData: [(info: Movie, poster: UIImage)]?
     let modelController = ModelController()
     let response = CallbackResponse()
-    
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +60,7 @@ class TableViewController: UIViewController, DataLoading {
     fileprivate func getMoviesFromServer(_ orderType: Int) {
         state = .loading
         modelController.getMoviesFromServer(orderType: orderType) { (moviesData, code)  in
-            let result = self.response.result(code!)
+            let result = self.response.result(code)
             switch result{
             case .success:
                 self.moviesData = moviesData
@@ -72,7 +70,7 @@ class TableViewController: UIViewController, DataLoading {
                     self.state = .loaded
                 }
             case .failure:
-                self.state = .error(message: self.safe(code))
+                self.state = .error(code: self.safe(code))
             }
         }
     }

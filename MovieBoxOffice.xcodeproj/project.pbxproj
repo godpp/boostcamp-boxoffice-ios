@@ -42,7 +42,7 @@
 		BCE3AB4121BBF7C5004DA97F /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB4021BBF7C5004DA97F /* Movies.swift */; };
 		BCE3AB4B21BD051D004DA97F /* APICenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB4A21BD051D004DA97F /* APICenter.swift */; };
 		BCE3AB4D21BD28B7004DA97F /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB4C21BD28B7004DA97F /* APIManager.swift */; };
-		BCE3AB4F21BD4AE7004DA97F /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB4E21BD4AE7004DA97F /* APIResponse.swift */; };
+		BCE3AB4F21BD4AE7004DA97F /* StatueCodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB4E21BD4AE7004DA97F /* StatueCodeResponse.swift */; };
 		BCE3AB5121BD5121004DA97F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB5021BD5121004DA97F /* Extension.swift */; };
 		BCE3AB5321BD88DD004DA97F /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB5221BD88DD004DA97F /* CollectionViewController.swift */; };
 		BCE3AB5F21BE9965004DA97F /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE3AB5E21BE9965004DA97F /* ModelController.swift */; };
@@ -107,7 +107,7 @@
 		BCE3AB4021BBF7C5004DA97F /* Movies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movies.swift; sourceTree = "<group>"; };
 		BCE3AB4A21BD051D004DA97F /* APICenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICenter.swift; sourceTree = "<group>"; };
 		BCE3AB4C21BD28B7004DA97F /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		BCE3AB4E21BD4AE7004DA97F /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
+		BCE3AB4E21BD4AE7004DA97F /* StatueCodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueCodeResponse.swift; sourceTree = "<group>"; };
 		BCE3AB5021BD5121004DA97F /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		BCE3AB5221BD88DD004DA97F /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		BCE3AB5E21BE9965004DA97F /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
@@ -279,7 +279,7 @@
 			children = (
 				BCE3AB4A21BD051D004DA97F /* APICenter.swift */,
 				BCE3AB4C21BD28B7004DA97F /* APIManager.swift */,
-				BCE3AB4E21BD4AE7004DA97F /* APIResponse.swift */,
+				BCE3AB4E21BD4AE7004DA97F /* StatueCodeResponse.swift */,
 				BC85388E21C28D7F00B01156 /* CallbackResponse.swift */,
 			);
 			path = Network;
@@ -448,7 +448,7 @@
 				BCE3AB4121BBF7C5004DA97F /* Movies.swift in Sources */,
 				BCE3AB3E21BBF40D004DA97F /* CollectionListCell.swift in Sources */,
 				BCE3AB5F21BE9965004DA97F /* ModelController.swift in Sources */,
-				BCE3AB4F21BD4AE7004DA97F /* APIResponse.swift in Sources */,
+				BCE3AB4F21BD4AE7004DA97F /* StatueCodeResponse.swift in Sources */,
 				BCE3AB5321BD88DD004DA97F /* CollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
