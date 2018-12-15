@@ -31,9 +31,6 @@ class MovieInfoCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         addTapGesture()
-    }
-    
-    override func layoutSubviews() {
         setGradeView()
     }
     

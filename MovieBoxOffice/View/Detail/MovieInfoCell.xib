@@ -98,8 +98,8 @@
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="meR-hL-1GB">
                         <rect key="frame" x="25" y="179" width="325" height="80"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="MpR-pt-tSy">
-                                <rect key="frame" x="0.0" y="15.5" width="97" height="49"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="MpR-pt-tSy">
+                                <rect key="frame" x="0.0" y="19.5" width="97" height="41"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예매율" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FwJ-zp-CJi">
                                         <rect key="frame" x="26.5" y="0.0" width="44.5" height="20.5"/>
@@ -108,7 +108,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aqo-fl-PNi">
-                                        <rect key="frame" x="0.0" y="34.5" width="97" height="14.5"/>
+                                        <rect key="frame" x="0.0" y="26.5" width="97" height="14.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{rank}" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VwZ-H0-8R1">
                                                 <rect key="frame" x="0.0" y="0.0" width="34" height="14.5"/>

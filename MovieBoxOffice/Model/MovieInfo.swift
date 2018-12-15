@@ -27,20 +27,9 @@ struct MovieInfo: Codable {
     let message: String?
     
     private enum CodingKeys: String, CodingKey {
-        case audience
-        case actor
-        case duration
-        case director
-        case synopsis
-        case genre
-        case grade
-        case image
+        case audience, actor, duration, director, synopsis, genre, grade, image, title, date, id, message
         case reservationGrade = "reservation_grade"
-        case title
         case reservationRate = "reservation_rate"
         case userRating = "user_rating"
-        case date
-        case id
-        case message
     }
 }

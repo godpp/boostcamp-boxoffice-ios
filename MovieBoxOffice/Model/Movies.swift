@@ -14,9 +14,8 @@ struct Movies: Codable {
     let message: String?
     
     private enum CodingKeys: String, CodingKey {
+        case movies, message
         case orderType = "order_type"
-        case movies
-        case message
     }
 }
 
@@ -32,13 +31,9 @@ struct Movie: Codable {
     let id: String?
     
     private enum CodingKeys: String, CodingKey {
-        case grade
-        case thumb
+        case grade, thumb, title, date, id
         case reservationGrade = "reservation_grade"
-        case title
         case reservationRate = "reservation_rate"
         case userRating = "user_rating"
-        case date
-        case id
     }
 }

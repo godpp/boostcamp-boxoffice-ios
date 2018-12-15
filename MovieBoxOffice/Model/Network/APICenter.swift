@@ -9,7 +9,7 @@
 import Foundation
 
 protocol APIService {
-    var baseURL: URL { get }
+    var baseURL: URL   { get }
     var subURL: String { get }
 }
 

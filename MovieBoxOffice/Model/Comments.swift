@@ -15,9 +15,8 @@ struct Comments: Codable {
     let message: String?
     
     private enum CodingKeys: String, CodingKey {
+        case comments, message
         case movieID = "movie_id"
-        case comments
-        case message
     }
 }
 
@@ -29,10 +28,8 @@ struct Comment: Codable {
     let contents: String?
     
     private enum CodingKeys: String, CodingKey {
-        case rating
+        case rating, writer, contents
         case timeStamp = "timestamp"
-        case writer
         case movieID = "movie_id"
-        case contents
     }
 }

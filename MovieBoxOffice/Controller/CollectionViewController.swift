@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 
-class CollectionViewController: UIViewController, DataLoading {
+class CollectionViewController: UIViewController, DataLoading, ImageDownloading {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    var refreshControl: UIRefreshControl = UIRefreshControl()
     
     var loadingView: LoadingView = {
         let view = LoadingView()
@@ -27,29 +28,43 @@ class CollectionViewController: UIViewController, DataLoading {
             case .loaded:
                 update(view)
                 collectionView.reloadData()
+            case .refreshed:
+                update(view)
+                collectionView.reloadData()
             case .error:
                 update(view)
             }
         }
     }
     
-    let APIManger = APIManager()
-    var moviesData: [(info: Movie, poster: UIImage)]?
-    let modelController = ModelController()
-    let response = CallbackResponse()
+    private var movies: [Movie]?
+    private var posters: [UIImage] = []
+    private let APIManger = APIManager()
+    private let response = CallbackResponse()
+    private var orderType: Int = 0{
+        didSet{
+            getMoviesFromServer(orderType)
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveOrderType), name: .observeOrderType, object: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setCollectionView()
         registerCollectionViewCell()
-        getMoviesFromServer(0)
+        getMoviesFromServer(orderType)
         setNavigationBarItem()
     }
     
     fileprivate func setCollectionView(){
         collectionView.delegate = self
         collectionView.dataSource = self
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveOrderType), name: .observeOrderType, object: nil)
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
     }
     
     fileprivate func registerCollectionViewCell(){
@@ -59,20 +74,37 @@ class CollectionViewController: UIViewController, DataLoading {
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
         state = .loading
-        modelController.getMoviesFromServer(orderType: orderType) { (moviesData, code)  in
+        APIManger.getMovies(orderType) { (movies, code) in
             let result = self.response.result(code)
             switch result{
             case .success:
-                self.moviesData = moviesData
-                DispatchQueue.main.async {
-                    let title = self.getTitleByOrderType(orderType)
-                    self.setTitle(title)
-                    self.state = .loaded
+                self.movies = movies
+                DispatchQueue.global(qos: .background).async {
+                    self.posters = self.downloadImages(movies)
+                    DispatchQueue.main.async {
+                        let title = self.getTitleByOrderType(orderType)
+                        self.setTitle(title)
+                        self.state = .loaded
+                    }
                 }
             case .failure:
-                self.state = .error(code: self.safe(code))
+                self.state = .error(code: code)
             }
         }
+    }
+    
+    fileprivate func downloadImages(_ movies: [Movie]?) -> [UIImage]{
+        var imageArray: [UIImage] = []
+        guard let movies = movies else {
+            self.state = .error(code: "No Movies Data")
+            return imageArray
+        }
+        for movie in movies{
+            if let image = self.downloadImage(url: self.safe(movie.thumb)){
+                imageArray.append(image)
+            }
+        }
+        return imageArray
     }
     
     fileprivate func setNavigationBarItem() {
@@ -80,15 +112,33 @@ class CollectionViewController: UIViewController, DataLoading {
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    @objc func setActionSheet(){
+    @objc fileprivate func setActionSheet(){
         presentActionSheet("정렬방식", "영화를 어떤 순서로 보여드릴까요?") { (orderType) in
             NotificationCenter.default.post(name: .observeOrderType, object: nil, userInfo: ["orderType": orderType])
         }
     }
     
-    @objc func receiveOrderType(_ notification: Notification){
+    @objc fileprivate func receiveOrderType(_ notification: Notification){
         if let orderType = notification.userInfo?["orderType"] as? Int {
-            getMoviesFromServer(orderType)
+            self.orderType = orderType
+        }
+    }
+    
+    @objc fileprivate func refreshData(_ sender: Any){
+        APIManger.getMovies(orderType) { (movies, code) in
+            let result = self.response.result(code)
+            switch result{
+            case .success:
+                self.movies = movies
+                DispatchQueue.global(qos: .background).async {
+                    self.posters = self.downloadImages(movies)
+                    DispatchQueue.main.async {
+                        self.state = .refreshed
+                    }
+                }
+            case .failure:
+                self.state = .error(code: code)
+            }
         }
     }
 }
@@ -120,7 +170,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
 extension CollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let count = moviesData?.count{
+        if let count = movies?.count{
             return count
         }
         return 0
@@ -131,7 +181,7 @@ extension CollectionViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let id = moviesData?[indexPath.row].info.id, let title = moviesData?[indexPath.row].info.title else { return }
+        guard let id = movies?[indexPath.row].id, let title = movies?[indexPath.row].title else { return }
         let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailVC.id = id
         detailVC.movieTitle = title
@@ -140,8 +190,16 @@ extension CollectionViewController: UICollectionViewDelegate, UICollectionViewDa
     
     fileprivate func setCollectionListCell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionListCell", for: indexPath) as! CollectionListCell
-        let movie = moviesData![indexPath.row]
-        cell.movie = movie
+        let movie = movies![indexPath.row]
+        let poster = posters[indexPath.row]
+        cell.posterImageView.image = poster
+        cell.titleLabel.text = safe(movie.title)
+        cell.ratingLabel.text = "(\(safe(movie.userRating)))"
+        cell.rankLabel.text = "\(safe(movie.reservationGrade))"
+        cell.salesRatingLabel.text = "\(safe(movie.reservationRate))"
+        cell.releaseDateLabel.text = safe(movie.date)
+        cell.gradeView.textLabel.text = cell.gradeView.getTextFromGrade(safe(movie.grade))
+        cell.gradeView.backgroundColor = cell.gradeView.getColorFromGrade(safe(movie.grade))
         return cell
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, DataLoading {
+class DetailViewController: UIViewController, DataLoading, ImageDownloading {
 
     @IBOutlet weak var movieDetailTableView: UITableView!
     
@@ -28,6 +28,8 @@ class DetailViewController: UIViewController, DataLoading {
                 movieDetailTableView.reloadData()
             case .error:
                 update(view)
+            case .refreshed:
+                break
             }
         }
     }
@@ -48,11 +50,11 @@ class DetailViewController: UIViewController, DataLoading {
     
     var id: String?
     var movieTitle: String?
-    var movieInfo: MovieInfo?
-    var poster: UIImage?
-    var comments: [Comment]?
-    let modelController = ModelController()
-    let response = CallbackResponse()
+    private var movieInfo: MovieInfo?
+    private var poster: UIImage?
+    private var comments: [Comment]?
+    private let APIManger = APIManager()
+    private let response = CallbackResponse()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,17 +83,57 @@ class DetailViewController: UIViewController, DataLoading {
     }
     
     fileprivate func getDataFromServer(_ id: String){
+        let group = DispatchGroup()
+        var check: Bool = true
         state = .loading
-        DispatchQueue.global(qos: .userInteractive).async {
-            self.modelController.getMovieInfoFromServer(id: id) { (movieInfo, poster, code)  in
+        
+        group.enter()
+        getInfoDataFromServer(id, completion: { (isSuccess) in
+            check = isSuccess && check
+            group.leave()
+        })
+        group.enter()
+        getCommentsDataFromServer(id, completion: { (isSuccess) in
+            check = isSuccess && check
+            group.leave()
+        })
+        group.notify(queue: .main) {
+            switch check{
+            case true:
+                self.state = .loaded
+            case false:
+                self.state = .error(code: "Data Loading Fail")
+            }
+        }
+    }
+    
+    fileprivate func getInfoDataFromServer(_ id: String, completion: @escaping (_ isSuccess: Bool) -> ()){
+        APIManger.getMovieDetail(id) { (movieInfo, code) in
+            let result = self.response.result(code)
+            switch result{
+            case .success:
                 self.movieInfo = movieInfo
-                self.poster = poster
-                self.modelController.getCommentsFromServer(movieID: id) { (comments) in
-                    self.comments = comments
-                    DispatchQueue.main.async {
-                        self.state = .loaded
+                if let imageURL = movieInfo?.image {
+                    if let image = self.downloadImage(url: imageURL) {
+                        self.poster = image
+                        completion(true)
                     }
                 }
+            case .failure:
+                completion(false)
+            }
+        }
+    }
+    
+    fileprivate func getCommentsDataFromServer(_ id: String, completion: @escaping (_ isSuccess: Bool) -> ()){
+        APIManger.getComments(id) { (comments, code) in
+            let result = self.response.result(code)
+            switch result{
+            case .success:
+                self.comments = comments
+                completion(true)
+            case .failure:
+                completion(false)
             }
         }
     }
