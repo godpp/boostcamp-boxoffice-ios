@@ -13,10 +13,19 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    func uiSetting(){
+        UINavigationBar.appearance().barTintColor = #colorLiteral(red: 0.337254902, green: 0.4196078431, blue: 0.768627451, alpha: 1)
+        UINavigationBar.appearance().tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)]
+        UITabBar.appearance().barTintColor = #colorLiteral(red: 0.335427016, green: 0.4181476831, blue: 0.7686859965, alpha: 1)
+        UITabBar.appearance().tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    }
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        uiSetting()
         return true
     }
 
