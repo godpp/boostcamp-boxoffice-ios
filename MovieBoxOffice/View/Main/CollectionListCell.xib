@@ -101,6 +101,7 @@
                             <constraint firstAttribute="bottom" secondItem="rxE-Si-Irp" secondAttribute="bottom" constant="21.5" id="7la-Rt-2CD"/>
                             <constraint firstItem="uxb-R2-mgx" firstAttribute="leading" secondItem="Ooy-yt-BhC" secondAttribute="leading" id="8wo-J5-K0L"/>
                             <constraint firstItem="RMh-zU-Czw" firstAttribute="trailing" secondItem="uxb-R2-mgx" secondAttribute="trailing" constant="-5" id="RTO-d6-mIT"/>
+                            <constraint firstItem="rxE-Si-Irp" firstAttribute="top" secondItem="Ooy-yt-BhC" secondAttribute="top" priority="750" constant="260" id="hRj-y3-4BO"/>
                             <constraint firstItem="rxE-Si-Irp" firstAttribute="centerX" secondItem="Ooy-yt-BhC" secondAttribute="centerX" id="j6W-ju-dRR"/>
                             <constraint firstItem="RMh-zU-Czw" firstAttribute="top" secondItem="uxb-R2-mgx" secondAttribute="top" constant="8" id="kLF-HH-HSn"/>
                             <constraint firstItem="rxE-Si-Irp" firstAttribute="top" secondItem="uxb-R2-mgx" secondAttribute="bottom" constant="8" id="ns1-ER-4R7"/>

@@ -40,7 +40,7 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
     }
     
     private var movies: [Movie]?
-    private var posters: [UIImage] = []
+    private var posters: [UIImage]?
     private let response = CallbackResponse()
     private let APIManger = APIManager()
     private var orderType: Int = 0{
@@ -77,17 +77,19 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
     }
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
+        setTitle(getTitleByOrderType(orderType))
         state = .loading
         APIManger.getMovies(orderType) { (movies, code) in
             let result = self.response.result(code)
             switch result{
             case .success:
-                self.movies = movies
+                DispatchQueue.main.async {
+                    self.movies = movies
+                    self.tableView.reloadData()
+                }
                 DispatchQueue.global(qos: .background).async {
                     self.posters = self.downloadImages(movies)
                     DispatchQueue.main.async {
-                        let title = self.getTitleByOrderType(orderType)
-                        self.setTitle(title)
                         self.state = .loaded
                     }
                 }
@@ -172,8 +174,9 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     fileprivate func setTableListCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableListCell", for: indexPath) as! TableListCell
         let movie = movies![indexPath.row]
-        let poster = posters[indexPath.row]
-        cell.posterImageView.image = poster
+        if let poster = posters?[indexPath.row]{
+            cell.posterImageView.image = poster
+        }
         cell.titleLabel.text = safe(movie.title)
         cell.ratingLabel.text = "\(safe(movie.userRating))"
         cell.rankLabel.text = "\(safe(movie.reservationGrade))"

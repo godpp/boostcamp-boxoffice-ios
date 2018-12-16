@@ -90,6 +90,9 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
         group.enter()
         getInfoDataFromServer(id, completion: { (isSuccess) in
             check = isSuccess && check
+            DispatchQueue.global(qos: .background).async {
+                self.downloadImage(self.movieInfo)
+            }
             group.leave()
         })
         group.enter()
@@ -97,12 +100,24 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
             check = isSuccess && check
             group.leave()
         })
+        
         group.notify(queue: .main) {
             switch check{
             case true:
-                self.state = .loaded
+                self.movieDetailTableView.reloadData()
             case false:
                 self.state = .error(code: "Data Loading Fail")
+            }
+        }
+    }
+    
+    fileprivate func downloadImage(_ movieInfo: MovieInfo?){
+        if let imageURL = movieInfo?.image {
+            if let image = self.downloadImage(url: imageURL) {
+                  self.poster = image
+                DispatchQueue.main.async {
+                    self.state = .loaded
+                }
             }
         }
     }
@@ -113,12 +128,7 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
             switch result{
             case .success:
                 self.movieInfo = movieInfo
-                if let imageURL = movieInfo?.image {
-                    if let image = self.downloadImage(url: imageURL) {
-                        self.poster = image
-                        completion(true)
-                    }
-                }
+                completion(true)
             case .failure:
                 completion(false)
             }

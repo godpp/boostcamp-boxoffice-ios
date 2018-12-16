@@ -114,6 +114,7 @@
                     <constraint firstItem="k6P-ua-Pwt" firstAttribute="leading" secondItem="he6-yl-gKL" secondAttribute="trailing" constant="10" id="hDD-VJ-awp"/>
                     <constraint firstItem="he6-yl-gKL" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="q8M-We-eDD"/>
                     <constraint firstItem="he6-yl-gKL" firstAttribute="height" relation="lessThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.9" id="qG2-tU-bSy"/>
+                    <constraint firstItem="k6P-ua-Pwt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" priority="750" constant="113.5" id="sG9-ao-eYf"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

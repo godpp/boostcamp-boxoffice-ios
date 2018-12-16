@@ -38,7 +38,7 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
     }
     
     private var movies: [Movie]?
-    private var posters: [UIImage] = []
+    private var posters: [UIImage]?
     private let APIManger = APIManager()
     private let response = CallbackResponse()
     private var orderType: Int = 0{
@@ -73,17 +73,19 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
     }
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
+        setTitle(getTitleByOrderType(orderType))
         state = .loading
         APIManger.getMovies(orderType) { (movies, code) in
             let result = self.response.result(code)
             switch result{
             case .success:
-                self.movies = movies
+                DispatchQueue.main.async {
+                    self.movies = movies
+                    self.collectionView.reloadData()
+                }
                 DispatchQueue.global(qos: .background).async {
                     self.posters = self.downloadImages(movies)
                     DispatchQueue.main.async {
-                        let title = self.getTitleByOrderType(orderType)
-                        self.setTitle(title)
                         self.state = .loaded
                     }
                 }
@@ -129,7 +131,10 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
             let result = self.response.result(code)
             switch result{
             case .success:
-                self.movies = movies
+                DispatchQueue.main.async {
+                    self.movies = movies
+                    self.collectionView.reloadData()
+                }
                 DispatchQueue.global(qos: .background).async {
                     self.posters = self.downloadImages(movies)
                     DispatchQueue.main.async {
@@ -191,8 +196,9 @@ extension CollectionViewController: UICollectionViewDelegate, UICollectionViewDa
     fileprivate func setCollectionListCell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionListCell", for: indexPath) as! CollectionListCell
         let movie = movies![indexPath.row]
-        let poster = posters[indexPath.row]
-        cell.posterImageView.image = poster
+        if let poster = posters?[indexPath.row]{
+            cell.posterImageView.image = poster
+        }
         cell.titleLabel.text = safe(movie.title)
         cell.ratingLabel.text = "(\(safe(movie.userRating)))"
         cell.rankLabel.text = "\(safe(movie.reservationGrade))"

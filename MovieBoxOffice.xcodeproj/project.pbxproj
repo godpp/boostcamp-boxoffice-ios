@@ -157,15 +157,6 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		BC66A61321C58FEB00E1C83B /* SupportItems */ = {
-			isa = PBXGroup;
-			children = (
-				BCE3AB0C21BBEC9B004DA97F /* Assets.xcassets */,
-				BCE3AB0921BBEC99004DA97F /* MovieBoxOffice.xcdatamodeld */,
-			);
-			path = SupportItems;
-			sourceTree = "<group>";
-		};
 		BC85384D21BF85DE00B01156 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,12 +228,13 @@
 			children = (
 				BCE3AB0221BBEC99004DA97F /* AppDelegate.swift */,
 				BCE3AB1121BBEC9B004DA97F /* Info.plist */,
+				BCE3AB0C21BBEC9B004DA97F /* Assets.xcassets */,
+				BCE3AB0921BBEC99004DA97F /* MovieBoxOffice.xcdatamodeld */,
 				BC66A61221C58FD400E1C83B /* Extension */,
 				BC66A61121C58FBF00E1C83B /* Protocol */,
 				BCE3AB3321BBEE79004DA97F /* Model */,
 				BCE3AB3421BBEE7D004DA97F /* View */,
 				BCE3AB3521BBEE81004DA97F /* Controller */,
-				BC66A61321C58FEB00E1C83B /* SupportItems */,
 			);
 			path = MovieBoxOffice;
 			sourceTree = "<group>";
