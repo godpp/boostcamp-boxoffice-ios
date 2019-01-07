@@ -47,6 +47,10 @@ extension DataLoading where Self: UIViewController {
                 let errorAlert = UIAlertController(title: "오류", message: code, preferredStyle: .alert)
                 self.present(errorAlert, animated: true, completion: nil)
             }
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
 }

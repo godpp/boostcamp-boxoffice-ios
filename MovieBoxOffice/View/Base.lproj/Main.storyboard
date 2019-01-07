@@ -117,6 +117,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="T3w-C0-jlP" firstAttribute="leading" secondItem="Qjv-Nd-b9Z" secondAttribute="leading" id="DCL-xD-6uz"/>
+                                    <constraint firstAttribute="width" constant="375" id="HzS-Ja-ABp"/>
                                     <constraint firstItem="T3w-C0-jlP" firstAttribute="height" secondItem="Qjv-Nd-b9Z" secondAttribute="height" id="fyo-Fv-IL8"/>
                                     <constraint firstAttribute="bottom" secondItem="T3w-C0-jlP" secondAttribute="bottom" id="h7U-fa-xth"/>
                                     <constraint firstAttribute="trailing" secondItem="T3w-C0-jlP" secondAttribute="trailing" id="lFp-Of-BgH"/>
@@ -132,9 +133,10 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="centerY" secondItem="1WQ-Gp-VUX" secondAttribute="centerY" id="2CY-Hy-UE1"/>
-                            <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="leading" secondItem="2ug-vw-C0e" secondAttribute="leading" id="L3l-vW-6hw"/>
-                            <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="trailing" secondItem="2ug-vw-C0e" secondAttribute="trailing" id="hyr-g5-cT0"/>
+                            <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2ug-vw-C0e" secondAttribute="leading" priority="250" id="L3l-vW-6hw"/>
+                            <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="centerX" secondItem="1WQ-Gp-VUX" secondAttribute="centerX" id="hYf-SK-MH9"/>
                             <constraint firstItem="vSc-4C-9aj" firstAttribute="top" secondItem="2ug-vw-C0e" secondAttribute="top" constant="10" id="vql-h7-TLf"/>
+                            <constraint firstItem="Qjv-Nd-b9Z" firstAttribute="top" relation="greaterThanOrEqual" secondItem="2ug-vw-C0e" secondAttribute="top" priority="250" id="xu0-XA-jaQ"/>
                             <constraint firstItem="vSc-4C-9aj" firstAttribute="leading" secondItem="2ug-vw-C0e" secondAttribute="leading" constant="20" id="yYY-cL-Jro"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2ug-vw-C0e"/>

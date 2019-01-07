@@ -21,6 +21,7 @@ struct Comments: Codable {
 }
 
 struct Comment: Codable {
+    
     let rating: Double?
     let timeStamp: Double?
     let writer: String?

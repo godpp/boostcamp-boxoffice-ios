@@ -149,6 +149,7 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
 }
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
+    
     fileprivate var sectionInset: UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     }
@@ -157,10 +158,18 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
         return 10
     }
     
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = (UIScreen.main.bounds.size.width - sectionInset.left - sectionInset.right - itemSpacing)/2
-        let itemHeight = itemWidth * 2
-        return CGSize(width: itemWidth, height: itemHeight)
+
+        if UIDevice.current.orientation.isLandscape {
+            let itemWidth = (UIScreen.main.bounds.size.width - sectionInset.left - sectionInset.right - itemSpacing) / 4
+            let itemHeight = itemWidth * 2
+            return CGSize(width: itemWidth, height: itemHeight)
+        } else {
+            let itemWidth = (UIScreen.main.bounds.size.width - sectionInset.left - sectionInset.right - itemSpacing) / 2
+            let itemHeight = itemWidth * 2
+            return CGSize(width: itemWidth, height: itemHeight)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

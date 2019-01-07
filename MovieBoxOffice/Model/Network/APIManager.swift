@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct APIManager {
+class APIManager {
     
     let apiCenter = APICenter<BoxOfficeAPI>()
     

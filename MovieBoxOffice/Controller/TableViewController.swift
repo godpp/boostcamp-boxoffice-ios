@@ -113,7 +113,6 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
         return imageArray
     }
     
-    
     fileprivate func setNavigationBarItem() {
         let rightBarButtonItem = UIBarButtonItem.init(image: UIImage(named: "setting"), style: .plain, target: self, action: #selector(setActionSheet))
         self.navigationItem.rightBarButtonItem = rightBarButtonItem

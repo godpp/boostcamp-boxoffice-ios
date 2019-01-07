@@ -17,21 +17,20 @@ extension UINavigationController
 
 extension UIViewController {
     
-    //MARK: Optional Binding using Generic
-    func safe<T>(_ data: T?) -> T {
-        switch data{
-        case is Int:
-            guard let unlock = data else { return 0 as! T }
-            return unlock
-        case is Double:
-            guard let unlock = data else { return 0.0 as! T }
-            return unlock
-        case is String:
-            guard let unlock = data else { return "" as! T }
-            return unlock
-        default:
-            return data!
-        }
+    //MARK: Optional Binding
+    func safe(_ data: Int?) -> Int {
+        guard let unlock = data else { return 0 }
+        return unlock
+    }
+    
+    func safe(_ data: Double?) -> Double {
+        guard let unlock = data else { return 0.0 }
+        return unlock
+    }
+    
+    func safe(_ data: String?) -> String {
+        guard let unlock = data else { return "" }
+        return unlock
     }
     
     func presentActionSheet(_ title: String, _ message: String, completion: @escaping (_ orderType: Int) -> ()) {

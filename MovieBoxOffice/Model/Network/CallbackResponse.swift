@@ -17,7 +17,7 @@ struct CallbackResponse {
     func result(_ code: String?) -> CallbackResult{
         switch code {
         case "success": return .success
-        default:        return .failure
+        default: return .failure
         }
     }
 }

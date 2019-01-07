@@ -86,7 +86,7 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
         let group = DispatchGroup()
         var check: Bool = true
         state = .loading
-        
+
         group.enter()
         getInfoDataFromServer(id, completion: { (isSuccess) in
             check = isSuccess && check
@@ -149,7 +149,8 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
     }
 }
 
-extension DetailViewController: UIGestureRecognizerDelegate, PosterTapDelegate{
+extension DetailViewController: PosterTapDelegate{
+    
     func posterTapDelegate() {
         let posterVC = self.storyboard?.instantiateViewController(withIdentifier: "PosterViewController") as! PosterViewController
         posterVC.poster = poster

@@ -17,7 +17,7 @@ struct StatueCodeResponse {
     func result(_ response: HTTPURLResponse) -> ResponseResult{
         switch response.statusCode {
         case 200: return .success
-        default:  return .failure
+        default: return .failure
         }
     }
 }
