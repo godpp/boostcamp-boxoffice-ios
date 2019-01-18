@@ -44,7 +44,8 @@ class APICenter<Service: APIService>{
     
     func request(_ server: Service, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ code: String) -> ()){
         guard let url = URL(string: server.baseURL.absoluteString + server.subURL) else { return }
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            guard let self = self else { return } 
             guard error == nil else {
                 completion(nil,nil,"Internet Connection Fail")
                 return
