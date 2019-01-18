@@ -6,7 +6,6 @@
 //  Copyright © 2018 Park Sung Joon. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class CollectionViewController: UIViewController, DataLoading, ImageDownloading {
