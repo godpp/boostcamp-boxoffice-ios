@@ -38,6 +38,7 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
     
     private var movies: [Movie]?
     private var posters: [UIImage]?
+    private let cellId: String = "CollectionListCell"
     private let APIManger = APIManager()
     private let response = CallbackResponse()
     private var orderType: Int = 0{
@@ -68,7 +69,7 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
     
     fileprivate func registerCollectionViewCell(){
         let nibName = UINib(nibName: "CollectionListCell", bundle: nil)
-        collectionView.register(nibName, forCellWithReuseIdentifier: "CollectionListCell")
+        collectionView.register(nibName, forCellWithReuseIdentifier: cellId)
     }
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
@@ -202,7 +203,7 @@ extension CollectionViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     fileprivate func setCollectionListCell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionListCell", for: indexPath) as! CollectionListCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CollectionListCell
         let movie = movies![indexPath.row]
         if let poster = posters?[indexPath.row]{
             cell.posterImageView.image = poster
