@@ -40,7 +40,7 @@ extension BoxOfficeAPI: APIService {
 
 class APICenter<Service: APIService>{
     
-    let statusCode = StatueCodeResponse()
+    private let statusCode = StatueCodeResponse()
     
     func request(_ server: Service, completion: @escaping (_ data: Data?, _ response: URLResponse?, _ code: String) -> ()){
         guard let url = URL(string: server.baseURL.absoluteString + server.subURL) else { return }
