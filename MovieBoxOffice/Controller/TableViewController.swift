@@ -22,19 +22,19 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
         return view
     }()
     
-    var state: ViewState = .loading {
+    var dataLoadingState: DataLoadingState = .loading {
         didSet{
-            switch state {
+            switch dataLoadingState {
             case .loading:
-                update(view)
+                actionAfterStateChanged(view)
             case .loaded:
-                update(view)
+                actionAfterStateChanged(view)
                 tableView.reloadData()
             case .refreshed:
-                update(view)
+                actionAfterStateChanged(view)
                 tableView.reloadData()
             case .error:
-                update(view)
+                actionAfterStateChanged(view)
             }
         }
     }
@@ -78,7 +78,7 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
         setTitle(getTitleByOrderType(orderType))
-        state = .loading
+        dataLoadingState = .loading
         APIManger.getMovies(orderType) { (movies, code) in
             let result = self.response.result(code)
             switch result{
@@ -90,11 +90,11 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
                 DispatchQueue.global(qos: .background).async {
                     self.posters = self.downloadImages(movies)
                     DispatchQueue.main.async {
-                        self.state = .loaded
+                        self.dataLoadingState = .loaded
                     }
                 }
             case .failure:
-                self.state = .error(code: code)
+                self.dataLoadingState = .error(code: code)
             }
         }
     }
@@ -102,7 +102,7 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
     fileprivate func downloadImages(_ movies: [Movie]?) -> [UIImage]{
         var imageArray: [UIImage] = []
         guard let movies = movies else {
-            self.state = .error(code: "No Movies Data")
+            self.dataLoadingState = .error(code: "No Movies Data")
             return imageArray
         }
         for movie in movies{
@@ -139,11 +139,11 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
                 DispatchQueue.global(qos: .background).async {
                     self.posters = self.downloadImages(movies)
                     DispatchQueue.main.async {
-                        self.state = .refreshed
+                        self.dataLoadingState = .refreshed
                     }
                 }
             case .failure:
-                self.state = .error(code: code)
+                self.dataLoadingState = .error(code: code)
             }
         }
     }
