@@ -12,6 +12,7 @@ class APIManager {
     
     let apiCenter = APICenter<BoxOfficeAPI>()
     
+    // code?
     func getMovies(_ orderType: Int, completion: @escaping (_ resultData: [Movie]?, _ code: String) -> ()){
         apiCenter.request(.movies(order_type: orderType)) { (data, response, code) in
             guard let responseData = data else {
