@@ -147,6 +147,11 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
             }
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 }
 
 extension TableViewController: UITableViewDelegate, UITableViewDataSource {

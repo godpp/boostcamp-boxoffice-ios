@@ -147,6 +147,10 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
             }
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
