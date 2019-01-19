@@ -75,7 +75,8 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
     fileprivate func getMoviesFromServer(_ orderType: Int) {
         setTitle(getTitleByOrderType(orderType))
         state = .loading
-        APIManger.getMovies(orderType) { (movies, code) in
+        APIManger.getMovies(orderType) { [weak self](movies, code) in
+            guard let self = self else {return}
             let result = self.response.result(code)
             switch result{
             case .success:
