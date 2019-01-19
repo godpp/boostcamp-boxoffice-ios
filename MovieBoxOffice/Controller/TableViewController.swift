@@ -173,16 +173,8 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     fileprivate func setTableListCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableListCell", for: indexPath) as! TableListCell
         let movie = movies![indexPath.row]
-        if let poster = posters?[indexPath.row]{
-            cell.posterImageView.image = poster
-        }
-        cell.titleLabel.text = safe(movie.title)
-        cell.ratingLabel.text = "\(safe(movie.userRating))"
-        cell.rankLabel.text = "\(safe(movie.reservationGrade))"
-        cell.salesRatingLabel.text = "\(safe(movie.reservationRate))"
-        cell.releaseDateLabel.text = safe(movie.date)
-        cell.gradeView.textLabel.text = cell.gradeView.getTextFromGrade(safe(movie.grade))
-        cell.gradeView.backgroundColor = cell.gradeView.getColorFromGrade(safe(movie.grade))
+        guard let poster = posters?[indexPath.row] else { return cell }
+        cell.configure(movieData: movie, moviePoster: poster)
         return cell
     }
 }

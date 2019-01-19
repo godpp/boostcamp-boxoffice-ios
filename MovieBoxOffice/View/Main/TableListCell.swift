@@ -27,4 +27,33 @@ class TableListCell: UITableViewCell {
         gradeView.layer.masksToBounds = true
         gradeView.layer.cornerRadius = gradeView.frame.size.width / 2
     }
+    
+    func configure(movieData: Movie, moviePoster: UIImage) {
+        posterImageView.image = moviePoster
+        titleLabel.text = safe(movieData.title)
+        ratingLabel.text = "\(safe(movieData.userRating))"
+        rankLabel.text = "\(safe(movieData.reservationGrade))"
+        salesRatingLabel.text = "\(safe(movieData.reservationRate))"
+        releaseDateLabel.text = safe(movieData.date)
+        gradeView.textLabel.text = gradeView.getTextFromGrade(safe(movieData.grade))
+        gradeView.backgroundColor = gradeView.getColorFromGrade(safe(movieData.grade))
+    }
+}
+
+extension TableListCell {
+    //MARK: Optional Binding
+    func safe(_ data: Int?) -> Int {
+        guard let unlock = data else { return 0 }
+        return unlock
+    }
+    
+    func safe(_ data: Double?) -> Double {
+        guard let unlock = data else { return 0.0 }
+        return unlock
+    }
+    
+    func safe(_ data: String?) -> String {
+        guard let unlock = data else { return "" }
+        return unlock
+    }
 }
