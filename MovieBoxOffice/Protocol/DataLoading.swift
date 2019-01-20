@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum ViewState {
+enum DataLoadingState {
     case loading
     case loaded
     case refreshed
@@ -20,9 +20,9 @@ protocol DataLoading {
     
     var loadingView: LoadingView { get }
     var refreshControl: UIRefreshControl { get }
-    var state: ViewState { get set }
+    var dataLoadingState: DataLoadingState { get set }
     
-    func update(_ view: UIView)
+    func actionAfterStateChanged(_ view: UIView)
 }
 
 extension DataLoading where Self: UIViewController {
@@ -31,8 +31,8 @@ extension DataLoading where Self: UIViewController {
         get{ return UIRefreshControl() }
     }
     
-    func update(_ view : UIView) {
-        switch state {
+    func actionAfterStateChanged(_ view : UIView) {
+        switch dataLoadingState {
         case .loading:
             loadingView.center = view.center
             loadingView.indicator.startAnimating()

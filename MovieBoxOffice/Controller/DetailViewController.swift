@@ -18,16 +18,16 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
         return view
     }()
     
-    var state: ViewState = .loading {
+    var dataLoadingState: DataLoadingState = .loading {
         didSet{
-            switch state {
+            switch dataLoadingState {
             case .loading:
-                update(view)
+                actionAfterStateChanged(view)
             case .loaded:
-                update(view)
+                actionAfterStateChanged(view)
                 movieDetailTableView.reloadData()
             case .error:
-                update(view)
+                actionAfterStateChanged(view)
             case .refreshed:
                 break
             }
@@ -85,7 +85,7 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
     fileprivate func getDataFromServer(_ id: String){
         let group = DispatchGroup()
         var check: Bool = true
-        state = .loading
+        dataLoadingState = .loading
 
         group.enter()
         getInfoDataFromServer(id, completion: { (isSuccess) in
@@ -106,7 +106,7 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
             case true:
                 self.movieDetailTableView.reloadData()
             case false:
-                self.state = .error(code: "Data Loading Fail")
+                self.dataLoadingState = .error(code: "Data Loading Fail")
             }
         }
     }
@@ -116,7 +116,7 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
             if let image = self.downloadImage(url: imageURL) {
                   self.poster = image
                 DispatchQueue.main.async {
-                    self.state = .loaded
+                    self.dataLoadingState = .loaded
                 }
             }
         }
