@@ -30,8 +30,8 @@ extension BoxOfficeAPI: APIService {
         switch self {
         case .movies(let order_type):
             return "movies?order_type=\(order_type)"
-        case .movie(let id):
-            return "movie?id=\(id)"
+        case .movie(let movie_id):
+            return "movie?id=\(movie_id)"
         case .comments(let movie_id):
             return "comments?movie_id=\(movie_id)"
         }

@@ -20,19 +20,19 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
         return view
     }()
     
-    var state: ViewState = .loading {
+    var dataLoadingState: DataLoadingState = .loading {
         didSet{
-            switch state {
+            switch dataLoadingState {
             case .loading:
-                update(view)
+                actionAfterStateChanged(view)
             case .loaded:
-                update(view)
+                actionAfterStateChanged(view)
                 tableView.reloadData()
             case .refreshed:
-                update(view)
+                actionAfterStateChanged(view)
                 tableView.reloadData()
             case .error:
-                update(view)
+                actionAfterStateChanged(view)
             }
         }
     }
@@ -77,7 +77,7 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
         setTitle(getTitleByOrderType(orderType))
-        state = .loading
+        dataLoadingState = .loading
         APIManger.getMovies(orderType) { [weak self](movies, code) in
             guard let self = self else {return}
             let result = self.response.result(code)
@@ -90,11 +90,11 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
                 DispatchQueue.global(qos: .background).async {
                     self.posters = self.downloadImages(movies)
                     DispatchQueue.main.async {
-                        self.state = .loaded
+                        self.dataLoadingState = .loaded
                     }
                 }
             case .failure:
-                self.state = .error(code: code)
+                self.dataLoadingState = .error(code: code)
             }
         }
     }
@@ -102,7 +102,7 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
     fileprivate func downloadImages(_ movies: [Movie]?) -> [UIImage]{
         var imageArray: [UIImage] = []
         guard let movies = movies else {
-            self.state = .error(code: "No Movies Data")
+            self.dataLoadingState = .error(code: "No Movies Data")
             return imageArray
         }
         for movie in movies{
@@ -139,11 +139,11 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
                 DispatchQueue.global(qos: .background).async {
                     self.posters = self.downloadImages(movies)
                     DispatchQueue.main.async {
-                        self.state = .refreshed
+                        self.dataLoadingState = .refreshed
                     }
                 }
             case .failure:
-                self.state = .error(code: code)
+                self.dataLoadingState = .error(code: code)
             }
         }
     }
@@ -178,16 +178,8 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     fileprivate func setTableListCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TableListCell
         let movie = movies![indexPath.row]
-        if let poster = posters?[indexPath.row]{
-            cell.posterImageView.image = poster
-        }
-        cell.titleLabel.text = safe(movie.title)
-        cell.ratingLabel.text = "\(safe(movie.userRating))"
-        cell.rankLabel.text = "\(safe(movie.reservationGrade))"
-        cell.salesRatingLabel.text = "\(safe(movie.reservationRate))"
-        cell.releaseDateLabel.text = safe(movie.date)
-        cell.gradeView.textLabel.text = cell.gradeView.getTextFromGrade(safe(movie.grade))
-        cell.gradeView.backgroundColor = cell.gradeView.getColorFromGrade(safe(movie.grade))
+        guard let poster = posters?[indexPath.row] else { return cell }
+        cell.configure(movieData: movie, moviePoster: poster)
         return cell
     }
 }
