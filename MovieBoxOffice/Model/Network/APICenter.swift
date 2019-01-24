@@ -60,6 +60,10 @@ class APICenter<Service: APIService>{
                     completion(data, response, "success")
                 case .failure:
                     completion(nil, nil, "404 Error")
+                case .badRequest:
+                    completion(nil, nil, "Bad Request")
+                case .serverError:
+                    completion(nil, nil, "Server Error")
                 }
             }
         }
