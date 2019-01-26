@@ -10,7 +10,7 @@ import Foundation
 
 class APIManager {
     
-    let apiCenter = APICenter<BoxOfficeAPI>()
+    private let apiCenter = APICenter<BoxOfficeAPI>()
     
     // code?
     func getMovies(_ orderType: Int, completion: @escaping (_ resultData: [Movie]?, _ code: String) -> ()){

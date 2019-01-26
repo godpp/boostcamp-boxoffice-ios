@@ -112,12 +112,11 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
     }
     
     fileprivate func downloadImage(_ movieInfo: MovieInfo?){
-        if let imageURL = movieInfo?.image {
-            if let image = self.downloadImage(url: imageURL) {
-                  self.poster = image
-                DispatchQueue.main.async {
-                    self.dataLoadingState = .loaded
-                }
+        guard let imageURL = movieInfo?.image else { return }
+        if let image = self.downloadImage(url: imageURL) {
+            self.poster = image
+            DispatchQueue.main.async {
+                self.dataLoadingState = .loaded
             }
         }
     }

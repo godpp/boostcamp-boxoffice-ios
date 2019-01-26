@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class TableViewController: UIViewController, DataLoading, ImageDownloading {
 
     @IBOutlet weak var tableView: UITableView!
@@ -41,6 +39,7 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
     
     private var movies: [Movie]?
     private var posters: [UIImage]?
+    private let cellId: String = "TableListCell"
     private let response = CallbackResponse()
     private let APIManger = APIManager()
     private var orderType: Int = 0{
@@ -73,13 +72,14 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
     
     fileprivate func registerTableViewCell(){
         let nibName = UINib(nibName: "TableListCell", bundle: nil)
-        tableView.register(nibName, forCellReuseIdentifier: "TableListCell")
+        tableView.register(nibName, forCellReuseIdentifier: cellId)
     }
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
         setTitle(getTitleByOrderType(orderType))
         dataLoadingState = .loading
-        APIManger.getMovies(orderType) { (movies, code) in
+        APIManger.getMovies(orderType) { [weak self](movies, code) in
+            guard let self = self else {return}
             let result = self.response.result(code)
             switch result{
             case .success:
@@ -147,6 +147,11 @@ class TableViewController: UIViewController, DataLoading, ImageDownloading {
             }
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 }
 
 extension TableViewController: UITableViewDelegate, UITableViewDataSource {
@@ -171,7 +176,7 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     fileprivate func setTableListCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableListCell", for: indexPath) as! TableListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TableListCell
         let movie = movies![indexPath.row]
         guard let poster = posters?[indexPath.row] else { return cell }
         cell.configure(movieData: movie, moviePoster: poster)

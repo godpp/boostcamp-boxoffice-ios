@@ -6,7 +6,6 @@
 //  Copyright © 2018 Park Sung Joon. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class CollectionViewController: UIViewController, DataLoading, ImageDownloading {
@@ -39,6 +38,7 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
     
     private var movies: [Movie]?
     private var posters: [UIImage]?
+    private let cellId: String = "CollectionListCell"
     private let APIManger = APIManager()
     private let response = CallbackResponse()
     private var orderType: Int = 0{
@@ -69,13 +69,14 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
     
     fileprivate func registerCollectionViewCell(){
         let nibName = UINib(nibName: "CollectionListCell", bundle: nil)
-        collectionView.register(nibName, forCellWithReuseIdentifier: "CollectionListCell")
+        collectionView.register(nibName, forCellWithReuseIdentifier: cellId)
     }
     
     fileprivate func getMoviesFromServer(_ orderType: Int) {
         setTitle(getTitleByOrderType(orderType))
         dataLoadingState = .loading
-        APIManger.getMovies(orderType) { (movies, code) in
+        APIManger.getMovies(orderType) { [weak self](movies, code) in
+            guard let self = self else {return}
             let result = self.response.result(code)
             switch result{
             case .success:
@@ -146,6 +147,10 @@ class CollectionViewController: UIViewController, DataLoading, ImageDownloading 
             }
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension CollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -203,7 +208,7 @@ extension CollectionViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     fileprivate func setCollectionListCell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionListCell", for: indexPath) as! CollectionListCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CollectionListCell
         let movie = movies![indexPath.row]
         if let poster = posters?[indexPath.row]{
             cell.posterImageView.image = poster
