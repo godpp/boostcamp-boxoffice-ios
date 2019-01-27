@@ -176,9 +176,9 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableListCell", for: indexPath) as? TableListCell else {
             preconditionFailure("TableListCell Error")
         }
-        let movie = movies![indexPath.row]
+        let data = movies![indexPath.row]
         guard let poster = posters?[indexPath.row] else { return cell }
-        cell.configure(movieData: movie, moviePoster: poster)
+        cell.configure(poster, andMovie: data)
         return cell
     }
 }

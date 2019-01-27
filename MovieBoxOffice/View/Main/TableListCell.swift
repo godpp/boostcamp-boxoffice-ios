@@ -28,15 +28,15 @@ class TableListCell: UITableViewCell {
         gradeView.layer.cornerRadius = gradeView.frame.size.width / 2
     }
     
-    func configure(movieData: Movie, moviePoster: UIImage) {
-        posterImageView.image = moviePoster
-        titleLabel.text = safe(movieData.title)
-        ratingLabel.text = "\(safe(movieData.userRating))"
-        rankLabel.text = "\(safe(movieData.reservationGrade))"
-        salesRatingLabel.text = "\(safe(movieData.reservationRate))"
-        releaseDateLabel.text = safe(movieData.date)
-        gradeView.textLabel.text = gradeView.getTextFromGrade(safe(movieData.grade))
-        gradeView.backgroundColor = gradeView.getColorFromGrade(safe(movieData.grade))
+    func configure(_ poster: UIImage, andMovie data: Movie) {
+        posterImageView.image = poster
+        titleLabel.text = safe(data.title)
+        ratingLabel.text = "\(safe(data.userRating))"
+        rankLabel.text = "\(safe(data.reservationGrade))"
+        salesRatingLabel.text = "\(safe(data.reservationRate))"
+        releaseDateLabel.text = safe(data.date)
+        gradeView.textLabel.text = gradeView.getTextFromGrade(safe(data.grade))
+        gradeView.backgroundColor = gradeView.getColorFromGrade(safe(data.grade))
     }
 }
 
