@@ -152,7 +152,9 @@ class DetailViewController: UIViewController, DataLoading, ImageDownloading {
 extension DetailViewController: PosterTapDelegate{
     
     func posterTapDelegate() {
-        let posterVC = self.storyboard?.instantiateViewController(withIdentifier: "PosterViewController") as! PosterViewController
+        guard let posterVC = self.storyboard?.instantiateViewController(withIdentifier: "PosterViewController") as? PosterViewController else {
+            preconditionFailure("PosterViewController Error")
+        }
         posterVC.poster = poster
         present(posterVC, animated: true, completion: nil)
     }
@@ -208,7 +210,9 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     fileprivate func setMovieInfoCell(_ indexPath: IndexPath) -> UITableViewCell {
-        let cell = movieDetailTableView.dequeueReusableCell(withIdentifier: "MovieInfoCell", for: indexPath) as! MovieInfoCell
+        guard let cell = movieDetailTableView.dequeueReusableCell(withIdentifier: "MovieInfoCell", for: indexPath) as? MovieInfoCell else {
+            preconditionFailure("MovieInfoCell Error")
+        }
         cell.posterImageView.image = poster
         cell.titleLabel.text = safe(movieInfo?.title)
         cell.releaseDateLabel.text = safe(movieInfo?.date)
@@ -226,20 +230,26 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     fileprivate func setSynopsisCell(_ indexPath: IndexPath) -> UITableViewCell {
-        let cell = movieDetailTableView.dequeueReusableCell(withIdentifier: "MovieSynopsisCell", for: indexPath) as! MovieSynopsisCell
+        guard let cell = movieDetailTableView.dequeueReusableCell(withIdentifier: "MovieSynopsisCell", for: indexPath) as? MovieSynopsisCell else {
+            preconditionFailure("MovieSynopsisCell Error")
+        }
         cell.synopsisLabel.text = safe(movieInfo?.synopsis)
         return cell
     }
     
     fileprivate func setDirectorCell(_ indexPath: IndexPath) -> UITableViewCell {
-        let cell = movieDetailTableView.dequeueReusableCell(withIdentifier: "DirectorInfoCell", for: indexPath) as! DirectorInfoCell
+        guard let cell = movieDetailTableView.dequeueReusableCell(withIdentifier: "DirectorInfoCell", for: indexPath) as? DirectorInfoCell else {
+            preconditionFailure("MovieSynopsisCell Error")
+        }
         cell.directorLabel.text = safe(movieInfo?.director)
         cell.actorLabel.text = safe(movieInfo?.actor)
         return cell
     }
     
     fileprivate func setCommentsCell(_ indexPath: IndexPath) -> UITableViewCell {
-        let cell = movieDetailTableView.dequeueReusableCell(withIdentifier: "MovieCommentsCell", for: indexPath) as! MovieCommentsCell
+        guard let cell = movieDetailTableView.dequeueReusableCell(withIdentifier: "MovieCommentsCell", for: indexPath) as? MovieCommentsCell else {
+            preconditionFailure("MovieCommentsCell Error")
+        }
         let comment = comments![indexPath.row]
         let date = Date(timeIntervalSince1970: safe(comment.timeStamp))
         cell.writerLabel.text = safe(comment.writer)

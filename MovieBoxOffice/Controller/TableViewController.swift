@@ -164,14 +164,18 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let id = movies?[indexPath.row].id, let title = movies?[indexPath.row].title else { return }
-        let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else {
+            preconditionFailure("DetailViewController Error")
+        }
         detailVC.id = id
         detailVC.movieTitle = title
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     fileprivate func setTableListCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableListCell", for: indexPath) as! TableListCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableListCell", for: indexPath) as? TableListCell else {
+            preconditionFailure("TableListCell Error")
+        }
         let movie = movies![indexPath.row]
         guard let poster = posters?[indexPath.row] else { return cell }
         cell.configure(movieData: movie, moviePoster: poster)
