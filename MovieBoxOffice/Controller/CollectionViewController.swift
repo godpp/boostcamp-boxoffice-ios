@@ -196,14 +196,18 @@ extension CollectionViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let id = movies?[indexPath.row].id, let title = movies?[indexPath.row].title else { return }
-        let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        guard let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else {
+            preconditionFailure("DetailViewController Error")
+        }
         detailVC.id = id
         detailVC.movieTitle = title
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     fileprivate func setCollectionListCell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionListCell", for: indexPath) as! CollectionListCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionListCell", for: indexPath) as? CollectionListCell else {
+            preconditionFailure("DetailViewController Error")
+        }
         let movie = movies![indexPath.row]
         if let poster = posters?[indexPath.row]{
             cell.posterImageView.image = poster
